@@ -1,3 +1,7 @@
-# Project by Melody Llinas & Melody Vu
+'''
+Project by Melody Llinas & Melody Vu
 
-# The following code takes our 
+The following script will take our in-color image dataset and convert them all to grayscale
+automatically.
+
+'''
