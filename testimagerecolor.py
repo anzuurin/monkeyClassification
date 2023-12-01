@@ -1,2 +1,3 @@
 # hi
-# ur mom
+# ur mom 
+print("hello word")
