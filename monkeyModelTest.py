@@ -19,7 +19,7 @@ bestModel_file = "C:/Users/huydu/introtoml/monkey_class_proj/monkeyClassificatio
 model = load_model(bestModel_file)
 
 # get validation data
-validationFolder = "" #path to validation folder
+validationFolder = "C:/Users/huydu/introtoml/monkey_class_proj/monkeyClassification/images/validation" #path to validation folder
 validation_generator = ImageDataGenerator(rescale = 1. /255)
 validation_set = validation_generator.flow_from_directory(validationFolder, shuffle = False, target_size = imageSize, 
                                                           batch_size = batchSize, class_mode = 'categorical')
@@ -49,30 +49,33 @@ def compareResults():
     numCols = 6
     numPics = numRows * numCols
 
-    fig, ax = plt.subplots(numRows, numCols, figsize=(3*numCols, 3*numRows))
+    fig, ax = plt.subplots(numRows, numCols, figsize=(3*numRows, 0.75*numCols))
     correct = 0
 
-    for i in range(numPics):
-        # pick random picture
-        x = random.choice(image_files)
-        xInd = image_files.index(x)
-        xImage = plt.imread(x)
+    for r in range(numRows):
+        for c in range(numCols):
+            # pick random picture
+            x = random.choice(image_files)
+            xInd = image_files.index(x)
+            xImage = plt.imread(x)
 
-        # get prediction for this pic
-        xPred = monkeyNames[predictionResults[xInd]]
-        xPred = xPred[:7]
+            # get prediction for this pic
+            xPred = monkeyNames[predictionResults[xInd]]
+            xPred = xPred[:7]
 
-        # get real species for this pic
-        xReal = monkeyNames[validation_set.classes[xInd]]
-        xReal = xReal[:7]
+            # get real species for this pic
+            xReal = monkeyNames[validation_set.classes[xInd]]
+            xReal = xReal[:7]
 
-        # if correct, record
-        if(xPred == xReal):
-            correct += 1
-        
-        xTitle = 'predicted: {} \nreal: {}'.format(xPred, xReal)
-        plt.imshow(xImage)
-        plt.title(xTitle)
+            # if correct, record
+            if(xPred == xReal):
+                correct += 1
+            
+            xTitle = 'predicted: {} \nreal: {}'.format(xPred, xReal)
+            #plt.imshow(xImage)
+            ax[r, c].set_title(xTitle, fontsize=5)
+            ax[r, c].imshow(xImage)
+            ax[r, c].axis('off')
 
     print(" -------------------------------------------------------------------------")
     print("Total Pictures: {} Predictions Correct: {}".format(numPics, correct))
